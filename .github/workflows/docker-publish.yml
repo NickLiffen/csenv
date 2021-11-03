@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: nodejs-typescript
+  IMAGE_NAME: codespaces
 jobs:
   build:
     runs-on: ubuntu-latest
