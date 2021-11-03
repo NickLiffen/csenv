@@ -9,7 +9,7 @@ on:
     branches: [ main ]
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: codespaces
+  IMAGE_NAME: nicks-codespaces-enviroment
 jobs:
   build:
     runs-on: ubuntu-latest
