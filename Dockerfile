@@ -24,6 +24,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
     -p git \
+    -p zsh-dircolors-solarized \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
@@ -39,6 +40,9 @@ RUN pip3 --no-cache-dir install --upgrade awscli
 
 # Install CFN-LINT
 RUN pip3 --no-cache-dir install --upgrade cfn-lint
+
+# Install DIR Colours
+RUN git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized.git $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
 
 # Install Specific User
 RUN useradd -m -s /bin/zsh -G sudo developer
