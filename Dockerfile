@@ -24,7 +24,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
     -p git \
-    -p ssh-agent \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions
 
@@ -40,3 +39,7 @@ RUN pip3 --no-cache-dir install --upgrade awscli
 
 # Install CFN-LINT
 RUN pip3 --no-cache-dir install --upgrade cfn-lint
+
+# Install Specific User
+RUN useradd -m -s /bin/zsh -G sudo developer
+USER developer
