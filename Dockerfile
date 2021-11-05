@@ -18,6 +18,11 @@ RUN apt-get update && apt-get -y install yarn
 # Install Global Yarn Modules
 RUN yarn global add typescript npm-check-updates
 
+# Install GitHub CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+RUN apt-get update && apt-get -y install gh
+
 # Install zsh
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
     -t https://github.com/denysdovhan/spaceship-prompt \
@@ -30,11 +35,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 RUN chsh -s /bin/zsh
 
-# Install GitHub CLI
-RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-RUN apt-get update && apt-get -y install gh
-
 # Install AWS CLI
 RUN pip3 --no-cache-dir install --upgrade awscli
 
@@ -43,7 +43,3 @@ RUN pip3 --no-cache-dir install --upgrade cfn-lint
 
 # Install DIR Colours
 RUN git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized.git $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
-
-# Install Specific User
-RUN useradd -m -s /bin/zsh -G sudo developer
-USER developer
