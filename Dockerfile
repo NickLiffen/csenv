@@ -23,15 +23,20 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 RUN apt-get update && apt-get -y install gh
 
+# Install DIR Colours
+RUN git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized ~/.zsh/zsh-dircolors-solarized
+
 # Install zsh
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
     -t https://github.com/denysdovhan/spaceship-prompt \
     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
     -a 'SPACESHIP_PROMPT_SEPARATE_LINE="false"' \
+    -a 'ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"' \ 
+    -a 'ZSH_AUTOSUGGEST_USE_HIGHLIGHT="true"' \
+    -a 'source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh' \
     -p git \
-    -p zsh-dircolors-solarized \
     -p https://github.com/zsh-users/zsh-autosuggestions \
-    -p https://github.com/zsh-users/zsh-completions
+    -p https://github.com/zsh-users/zsh-completions 
 
 RUN chsh -s /bin/zsh
 
@@ -41,5 +46,3 @@ RUN pip3 --no-cache-dir install --upgrade awscli
 # Install CFN-LINT
 RUN pip3 --no-cache-dir install --upgrade cfn-lint
 
-# Install DIR Colours
-RUN git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized.git $ZSH_CUSTOM/plugins/zsh-dircolors-solarized
