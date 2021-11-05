@@ -40,8 +40,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
 
 RUN chsh -s /bin/zsh
 
-RUN setupsolarized dircolors.ansi-dark
-
 # Install AWS CLI
 RUN pip3 --no-cache-dir install --upgrade awscli
 
