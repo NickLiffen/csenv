@@ -26,7 +26,7 @@ RUN apt-get update && apt-get -y install gh
 # Install DIR Colours
 RUN git clone --recursive https://github.com/joel-porquet/zsh-dircolors-solarized ~/.zsh/zsh-dircolors-solarized
 
-# Install zsh
+# Install zsh and configure
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh)" -- \
     -t https://github.com/denysdovhan/spaceship-prompt \
     -a 'SPACESHIP_PROMPT_ADD_NEWLINE="false"' \
@@ -39,6 +39,8 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-completions 
 
 RUN chsh -s /bin/zsh
+
+RUN setupsolarized dircolors.ansi-dark
 
 # Install AWS CLI
 RUN pip3 --no-cache-dir install --upgrade awscli
