@@ -34,6 +34,7 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -a 'ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=1"' \ 
     -a 'ZSH_AUTOSUGGEST_USE_HIGHLIGHT="true"' \
     -a 'source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh' \
+    -a 'eval $(dircolors ~/.zsh/zsh-dircolors-solarized/dircolors-solarized/dircolors.ansi-dark)' \
     -p git \
     -p https://github.com/zsh-users/zsh-autosuggestions \
     -p https://github.com/zsh-users/zsh-completions 
