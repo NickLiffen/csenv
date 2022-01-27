@@ -4,9 +4,7 @@ on:
     - cron: '42 0 * * *'
   push:
     branches: [ main ]
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ main ]
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
