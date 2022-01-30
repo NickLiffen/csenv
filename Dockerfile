@@ -1,10 +1,7 @@
 FROM docker.io/ubuntu:latest 
 
 # Basic Foundations
-RUN apt-get update && apt-get -y install curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release
-
-# Install Python
-RUN apt-get update && apt-get -y install python3 python3-pip python3-venv python3-setuptools
+RUN apt-get update && apt-get -y install curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools
 
 # Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
@@ -53,11 +50,23 @@ RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update && apt-get install azure-functions-core-tools-4
 
+# Enable non-root Docker access in container
+ARG ENABLE_NONROOT_DOCKER="false"
+# Use the OSS Moby Engine instead of the licensed Docker Engine
+ARG USE_MOBY="true"
+# Engine/CLI Version
+ARG DOCKER_VERSION="latest"
+# Enable new "BUILDKIT" mode for Docker CLI
+ENV DOCKER_BUILDKIT=1
+# Setting username
+ARG USERNAME=root
+# Copy Scripts
+COPY scripts/*.sh /tmp/scripts/
+# Run docker-in-docker
+RUN apt-get update \
+    && /bin/bash /tmp/scripts/docker-in-docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "${USERNAME}" "${USE_MOBY}" "${DOCKER_VERSION}" \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/scripts/
 
-# Install Docker Agent
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-RUN echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN curl -fsSL https://get.docker.com -o get-docker.sh
-RUN sh get-docker.sh
+VOLUME [ "/var/lib/docker" ]
+ENTRYPOINT [ "/usr/local/share/docker-init.sh" ]
+CMD [ "sleep", "infinity" ]
