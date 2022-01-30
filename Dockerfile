@@ -53,7 +53,6 @@ RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update && apt-get install azure-functions-core-tools-4
 
-
 # Install Docker Agent
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 RUN echo \
@@ -61,3 +60,6 @@ RUN echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
 RUN sh get-docker.sh
+
+# Install act
+RUN curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
