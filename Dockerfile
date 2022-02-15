@@ -50,7 +50,16 @@ RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update && apt-get install azure-functions-core-tools-4
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-RUN az bicep install
+
+# Fetch the latest Bicep CLI binary
+RUN curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+# Mark it as executable
+RUN chmod +x ./bicep
+# Add bicep to your PATH (requires admin)
+RUN sudo mv ./bicep /usr/local/bin/bicep
+# Verify you can now access the 'bicep' command
+RUN bicep --help
+# Done!
 
 # Install ACT
 RUN curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
