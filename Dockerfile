@@ -1,7 +1,7 @@
 FROM docker.io/ubuntu:latest 
 
 # Basic Foundations
-RUN apt-get update && apt-get -y install curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools libicu-dev
+RUN apt-get update && apt-get -y install curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools
 
 # Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
