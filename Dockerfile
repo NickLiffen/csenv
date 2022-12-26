@@ -16,7 +16,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update && apt-get -y install yarn
 
 # Install Global Yarn Modules
-RUN yarn global add typescript npm-check-updates
+RUN yarn global add typescript npm-check-updates aws-cdk
 
 # Install GitHub CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
