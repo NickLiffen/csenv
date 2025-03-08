@@ -4,7 +4,7 @@ ENV TZ=Europe/London
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Basic Foundations
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools libicu-dev
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools libicu-dev awscli cfn-lint
 
 # Install NodeJS
 RUN curl -sL https://deb.nodesource.com/setup_22.x  | bash -
@@ -40,12 +40,6 @@ RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/
     -p https://github.com/zsh-users/zsh-completions 
 
 RUN chsh -s /bin/zsh
-
-# Install AWS CLI
-RUN pip3 --no-cache-dir install --upgrade awscli
-
-# Install CFN-LINT
-RUN pip3 --no-cache-dir install --upgrade cfn-lint
 
 # Install Azure Functions Tools
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg 
