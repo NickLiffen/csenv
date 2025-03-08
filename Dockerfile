@@ -7,7 +7,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq curl gnupg jq nano zip unzip wget file locales sudo ca-certificates lsb-release python3 python3-pip python3-venv python3-setuptools libicu-dev
 
 # Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_20.x  | bash -
+RUN curl -sL https://deb.nodesource.com/setup_22.x  | bash -
 RUN apt-get update && apt-get -y install nodejs
 
 # Install Yarn
